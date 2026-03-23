@@ -112,7 +112,7 @@ export const ticketService = {
       offence_description: data.offence_description,
       fine_amount: data.fine_amount,
       status: 'Unpaid',
-      payment_reference: '',
+      payment_reference: `PAY-${dateStr}-${seq}`,
       issued_at: now.toISOString(),
       due_date: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       location: data.location,
@@ -124,5 +124,21 @@ export const ticketService = {
 
     mockTickets.push(newTicket);
     return { ...newTicket };
+  },
+
+  async confirmPayment(ticketId: string): Promise<Ticket> {
+    await delay(500);
+
+    const ticket = mockTickets.find((t) => t.id === ticketId);
+    if (!ticket) throw new Error('Ticket not found');
+
+    const now = new Date();
+    const seq = String(Math.floor(Math.random() * 99999)).padStart(5, '0');
+
+    ticket.status = 'Paid';
+    ticket.paid_at = now.toISOString();
+    ticket.receipt_number = `RCT-${now.toISOString().slice(0, 10).replace(/-/g, '')}-${seq}`;
+
+    return { ...ticket };
   },
 };

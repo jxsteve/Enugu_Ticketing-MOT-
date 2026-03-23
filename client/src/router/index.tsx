@@ -15,18 +15,33 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+
+      {/* All authenticated users */}
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/drivers" element={<DriversPage />} />
-          <Route path="/drivers/:id" element={<DriverDetailPage />} />
-          <Route path="/enforcement" element={<EnforcementPage />} />
           <Route path="/tickets" element={<TicketsPage />} />
           <Route path="/tickets/:id" element={<TicketDetailPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+
+          {/* Agent + Admin + Supervisor */}
+          <Route element={<ProtectedRoute allowedRoles={['Admin', 'Supervisor', 'Agent']} />}>
+            <Route path="/enforcement" element={<EnforcementPage />} />
+          </Route>
+
+          {/* Admin + Supervisor + Finance — not agents */}
+          <Route element={<ProtectedRoute allowedRoles={['Admin', 'Supervisor', 'Finance']} />}>
+            <Route path="/drivers" element={<DriversPage />} />
+            <Route path="/drivers/:id" element={<DriverDetailPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
+          </Route>
+
+          {/* Admin only */}
+          <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
         </Route>
       </Route>
+
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

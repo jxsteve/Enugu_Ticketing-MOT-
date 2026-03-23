@@ -56,10 +56,10 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
@@ -90,9 +90,9 @@
 }
 
 .statIconWrapper {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,18 +121,19 @@
 }
 
 .statValue {
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: 700;
   color: var(--foreground);
   font-family: var(--font-mono);
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .statLabel {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--muted-foreground);
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .chartsGrid {
@@ -154,5 +155,135 @@
 @media (max-width: 640px) {
   .statsGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Agent Detail Modal */
+.agentDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.agentDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.agentField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.agentFieldLabel {
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.agentFieldValue {
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .agentDetailGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Agent Dashboard: CTA Banner ────────────────────────── */
+
+.ctaBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: var(--card);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease;
+}
+
+.ctaBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--color-accent-hover), transparent);
+}
+
+.ctaBanner:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: var(--shadow-glow-amber);
+  transform: translateY(-1px);
+}
+
+.ctaIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.ctaContent {
+  flex: 1;
+}
+
+.ctaTitle {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 2px;
+  letter-spacing: -0.01em;
+}
+
+.ctaDesc {
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Agent Dashboard: Alert Banner ──────────────────────── */
+
+.alertBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--chart-1);
+  font-size: var(--text-sm);
+  animation: fadeInUp 0.35s ease;
+}
+
+.alertBanner strong {
+  color: var(--foreground);
+}
+
+@media (max-width: 640px) {
+  .ctaBanner {
+    flex-direction: column;
+    text-align: center;
   }
 }

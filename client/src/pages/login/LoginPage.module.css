@@ -31,6 +31,40 @@
   transform: translateX(0);
 }
 
+/* Coat of Arms — large subtle background watermark */
+.coatOfArms {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.coatOfArms img {
+  width: 85%;
+  max-width: 480px;
+  height: auto;
+  opacity: 0.06;
+  filter: grayscale(20%) brightness(1.2);
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: coatFadeIn 1.5s ease 0.3s both;
+}
+
+@keyframes coatFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 0.06;
+    transform: scale(1);
+  }
+}
+
 /* Geometric grid background */
 .gridOverlay {
   position: absolute;

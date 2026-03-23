@@ -41,6 +41,9 @@ export const LoginPage: React.FC = () => {
     <div className={styles.page}>
       {/* Left Panel — Branding & Visual */}
       <div className={`${styles.leftPanel} ${mounted ? styles.mounted : ''}`}>
+        <div className={styles.coatOfArms}>
+          <img src="/images/enugu-coat-of-arms.png" alt="Enugu State Coat of Arms" />
+        </div>
         <div className={styles.gridOverlay} />
         <div className={styles.glowOrb} />
         <div className={styles.glowOrbSecondary} />

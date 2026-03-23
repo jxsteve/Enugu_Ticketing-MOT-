@@ -11,15 +11,16 @@ import {
   LogOut,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import type { UserRole } from '@/types';
 import styles from './Sidebar.module.css';
 
-const navItems = [
+const navItems: { to: string; icon: typeof LayoutDashboard; label: string; roles?: UserRole[] }[] = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/drivers', icon: Users, label: 'Drivers' },
-  { to: '/enforcement', icon: Shield, label: 'Enforcement' },
+  { to: '/drivers', icon: Users, label: 'Drivers', roles: ['Admin', 'Supervisor', 'Finance'] },
+  { to: '/enforcement', icon: Shield, label: 'Enforcement', roles: ['Admin', 'Supervisor', 'Agent'] },
   { to: '/tickets', icon: FileText, label: 'Tickets' },
-  { to: '/reports', icon: BarChart3, label: 'Reports' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/reports', icon: BarChart3, label: 'Reports', roles: ['Admin', 'Supervisor', 'Finance'] },
+  { to: '/settings', icon: Settings, label: 'Settings', roles: ['Admin'] },
 ];
 
 interface SidebarProps {
@@ -53,7 +54,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       {!collapsed && <div className={styles.sectionLabel}>Navigation</div>}
 
       <nav className={styles.nav}>
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {navItems
+          .filter(({ roles }) => !roles || (user && roles.includes(user.role)))
+          .map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
