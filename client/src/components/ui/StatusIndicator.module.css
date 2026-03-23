@@ -1,0 +1,46 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* Status colors */
+.compliant .dot {
+  background-color: var(--color-success);
+}
+.compliant .text {
+  color: var(--color-success);
+}
+
+.nonCompliant .dot {
+  background-color: var(--color-danger);
+}
+.nonCompliant .text {
+  color: var(--color-danger);
+}
+
+.pending .dot {
+  background-color: var(--color-warning);
+}
+.pending .text {
+  color: var(--color-warning);
+}
+
+.expired .dot {
+  background-color: var(--color-text-muted);
+}
+.expired .text {
+  color: var(--color-text-muted);
+}

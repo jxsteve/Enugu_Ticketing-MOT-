@@ -1,0 +1,197 @@
+.page {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.pageTitle {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.searchForm {
+  display: flex;
+  gap: var(--space-3);
+  max-width: 600px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
+  font-family: var(--font-sans);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-danger);
+  border-radius: 8px;
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--color-success);
+  border-radius: 8px;
+  padding: var(--space-4);
+  color: var(--color-success);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.driverCard {
+  max-width: 700px;
+}
+
+.driverHeader {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.driverPhoto {
+  flex-shrink: 0;
+}
+
+.photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.photoPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.driverInfo {
+  flex: 1;
+}
+
+.driverName {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-1);
+}
+
+.driverPlate {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  color: var(--color-accent);
+  margin: 0 0 var(--space-1);
+}
+
+.driverType {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.complianceStatus {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: var(--space-2) var(--space-3);
+}
+
+.ticketSection {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ticketTitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.offenceSelect {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.selectLabel {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.select {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-family: var(--font-sans);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.fineAmount {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.fineAmount strong {
+  color: var(--color-danger);
+  font-size: var(--text-lg);
+}
+
+.issueButton {
+  align-self: flex-start;
+}
+
+@media (max-width: 640px) {
+  .driverHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .searchForm {
+    flex-direction: column;
+  }
+}
