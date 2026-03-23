@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_LOADING', payload: true });
     // TODO: Replace with real API call
     const { authService } = await import('@/services/authService');
-    const response = await authService.login(email, password);
+    const response = await authService.login({ email, password });
     localStorage.setItem('mot_token', response.token);
     localStorage.setItem('mot_user', JSON.stringify(response.user));
     dispatch({ type: 'LOGIN', payload: response });
