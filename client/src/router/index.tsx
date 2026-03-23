@@ -10,6 +10,7 @@ import { TicketsPage } from '@/pages/tickets/TicketsPage';
 import { TicketDetailPage } from '@/pages/tickets/TicketDetailPage';
 import { ReportsPage } from '@/pages/reports/ReportsPage';
 import { SettingsPage } from '@/pages/settings/SettingsPage';
+import { AgentsPage } from '@/pages/agents/AgentsPage';
 
 export function AppRouter() {
   return (
@@ -37,6 +38,7 @@ export function AppRouter() {
 
           {/* Admin only */}
           <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+            <Route path="/agents" element={<AgentsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Route>

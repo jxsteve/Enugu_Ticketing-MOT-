@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Shield, Lock, Mail, ArrowRight, Fingerprint } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, Fingerprint, Landmark } from 'lucide-react';
 import styles from './LoginPage.module.css';
 
 export const LoginPage: React.FC = () => {
@@ -41,22 +41,17 @@ export const LoginPage: React.FC = () => {
     <div className={styles.page}>
       {/* Left Panel — Branding & Visual */}
       <div className={`${styles.leftPanel} ${mounted ? styles.mounted : ''}`}>
-        <div className={styles.coatOfArms}>
-          <img src="/images/enugu-coat-of-arms.png" alt="Enugu State Coat of Arms" />
-        </div>
-        <div className={styles.gridOverlay} />
-        <div className={styles.glowOrb} />
-        <div className={styles.glowOrbSecondary} />
+        <div className={styles.decorStripe} />
 
         <div className={styles.leftContent}>
           <div className={styles.badge}>
-            <Shield size={14} />
+            <Shield size={13} />
             <span>AUTHORIZED ACCESS ONLY</span>
           </div>
 
           <div className={styles.logoBlock}>
             <div className={styles.logoIcon}>
-              <Fingerprint size={32} strokeWidth={1.5} />
+              <Landmark size={28} strokeWidth={1.5} />
             </div>
             <div className={styles.logoText}>
               <span className={styles.logoAccent}>ENUGU</span>
@@ -95,6 +90,12 @@ export const LoginPage: React.FC = () => {
         </div>
 
         <div className={styles.leftFooter}>
+          <img
+            src="/images/enugu-coat-of-arms.png"
+            alt="Government of Enugu State"
+            className={styles.coatOfArms}
+          />
+          <p className={styles.ministryName}>Enugu State Ministry of Transportation</p>
           <div className={styles.securityIndicator}>
             <span className={styles.securityDot} />
             <span>TLS 1.3 Encrypted</span>
@@ -106,6 +107,9 @@ export const LoginPage: React.FC = () => {
       <div className={`${styles.rightPanel} ${mounted ? styles.mounted : ''}`}>
         <div className={styles.formContainer}>
           <div className={styles.formHeader}>
+            <div className={styles.formLogoMark}>
+              <Fingerprint size={22} strokeWidth={1.5} />
+            </div>
             <h2 className={styles.formTitle}>Sign in</h2>
             <p className={styles.formSubtitle}>
               Enter your credentials to access the enforcement dashboard

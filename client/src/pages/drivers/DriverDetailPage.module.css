@@ -63,8 +63,8 @@
   width: 120px;
   height: 120px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.03));
-  border: 2px solid rgba(245, 158, 11, 0.15);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.15), rgba(22, 163, 74, 0.03));
+  border: 2px solid rgba(22, 163, 74, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;

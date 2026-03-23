@@ -9,6 +9,8 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Landmark,
+  UserCog,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import type { UserRole } from '@/types';
@@ -20,6 +22,7 @@ const navItems: { to: string; icon: typeof LayoutDashboard; label: string; roles
   { to: '/enforcement', icon: Shield, label: 'Enforcement', roles: ['Admin', 'Supervisor', 'Agent'] },
   { to: '/tickets', icon: FileText, label: 'Tickets' },
   { to: '/reports', icon: BarChart3, label: 'Reports', roles: ['Admin', 'Supervisor', 'Finance'] },
+  { to: '/agents', icon: UserCog, label: 'Agents', roles: ['Admin'] },
   { to: '/settings', icon: Settings, label: 'Settings', roles: ['Admin'] },
 ];
 
@@ -38,8 +41,10 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
       <div className={styles.logo}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div className={styles.logoMark}>E</div>
+        <div className={styles.logoInner}>
+          <div className={styles.logoMark}>
+            <Landmark size={20} strokeWidth={1.6} />
+          </div>
           {!collapsed && (
             <span className={styles.logoText}>
               Enugu <span>MOT</span>

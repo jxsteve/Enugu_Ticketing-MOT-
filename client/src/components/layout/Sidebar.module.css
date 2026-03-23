@@ -10,12 +10,13 @@
   overflow: hidden;
 }
 
-/* Subtle top-to-bottom gradient overlay */
+/* Subtle ambient glow */
 .sidebar::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(22, 163, 74, 0.04) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -25,29 +26,38 @@
   z-index: 1;
 }
 
+/* ── Logo ──────────────────────────────────────────────────── */
+
 .logo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-4);
+  padding: var(--space-4);
   height: var(--topbar-height);
   border-bottom: 1px solid var(--sidebar-border);
 }
 
+.logoInner {
+  display: flex;
+  align-items: center;
+}
+
 .logoMark {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.15), rgba(22, 163, 74, 0.05));
+  border: 1.5px solid rgba(22, 163, 74, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 800;
-  font-size: var(--text-sm);
-  color: #000;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+  overflow: hidden;
+}
+
+.logoMark svg {
+  color: var(--sidebar-primary);
+  flex-shrink: 0;
 }
 
 .logoText {
@@ -82,16 +92,20 @@
   border-color: var(--sidebar-border);
 }
 
+/* ── Section Label ─────────────────────────────────────────── */
+
 .sectionLabel {
-  font-size: 0.625rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--muted-foreground);
-  padding: var(--space-4) var(--space-4) var(--space-2) var(--space-4);
-  opacity: 0.6;
+  padding: var(--space-5) var(--space-4) var(--space-2) var(--space-5);
+  opacity: 0.5;
   font-family: var(--font-mono);
 }
+
+/* ── Navigation ────────────────────────────────────────────── */
 
 .nav {
   flex: 1;
@@ -125,8 +139,8 @@
 
 .navItem.active {
   color: var(--primary);
-  background: rgba(245, 158, 11, 0.08);
-  border-color: rgba(245, 158, 11, 0.12);
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.12);
   font-weight: 600;
 }
 
@@ -140,8 +154,8 @@
   width: 3px;
   height: 20px;
   border-radius: 0 3px 3px 0;
-  background: linear-gradient(180deg, #fbbf24, #d97706);
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(180deg, #22c55e, #15803d);
+  box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
 }
 
 .navItem svg {
@@ -154,12 +168,17 @@
 }
 
 .navItem.active svg {
-  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+  filter: drop-shadow(0 0 4px rgba(22, 163, 74, 0.3));
 }
 
+/* ── Footer ────────────────────────────────────────────────── */
+
 .footer {
-  padding: var(--space-3) var(--space-3);
+  padding: var(--space-3);
   border-top: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .userSection {
@@ -168,20 +187,21 @@
   gap: var(--space-3);
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  margin-bottom: var(--space-2);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .userAvatar {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
-  border: 1px solid rgba(245, 158, 11, 0.15);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.2), rgba(22, 163, 74, 0.05));
+  border: 1px solid rgba(22, 163, 74, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--primary);
   flex-shrink: 0;
 }
@@ -202,7 +222,7 @@
 }
 
 .userRole {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -232,10 +252,15 @@
   border-color: rgba(239, 68, 68, 0.1);
 }
 
-/* Collapsed state */
+/* ── Collapsed state ───────────────────────────────────────── */
+
 .collapsed .logo {
   justify-content: center;
   padding: var(--space-4) var(--space-2);
+}
+
+.collapsed .logoInner {
+  justify-content: center;
 }
 
 .collapsed .navItem {

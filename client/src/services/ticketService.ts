@@ -141,4 +141,30 @@ export const ticketService = {
 
     return { ...ticket };
   },
+
+  async getRecentPaidTickets(driverId: string): Promise<Ticket[]> {
+    await delay(150);
+
+    const today = new Date().toISOString().slice(0, 10);
+    return mockTickets.filter(
+      (t) =>
+        t.driver_id === driverId &&
+        t.status === 'Paid' &&
+        t.paid_at &&
+        t.paid_at.startsWith(today),
+    );
+  },
+
+  async verifyReceipt(receiptNumber: string): Promise<Ticket | null> {
+    await delay(200);
+
+    const ticket = mockTickets.find(
+      (t) =>
+        (t.receipt_number && t.receipt_number.toLowerCase() === receiptNumber.toLowerCase()) ||
+        (t.payment_reference && t.payment_reference.toLowerCase() === receiptNumber.toLowerCase()) ||
+        t.ticket_number.toLowerCase() === receiptNumber.toLowerCase(),
+    );
+
+    return ticket ? { ...ticket } : null;
+  },
 };

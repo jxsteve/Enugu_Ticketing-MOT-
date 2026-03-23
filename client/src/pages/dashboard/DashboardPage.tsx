@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { dashboardService } from '@/services/dashboardService';
 import type { DashboardStats, AgentDashboardStats, AgentActivity } from '@/types';
+import { mockUsers } from '@/mock';
 import { useAuth } from '@/context/AuthContext';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { Card } from '@/components/ui/Card';
@@ -28,7 +29,10 @@ import { Table, type Column } from '@/components/ui/Table';
 import { formatCurrency, formatDateTime } from '@/utils/format';
 import { ComplianceDonutChart } from '@/components/charts/ComplianceDonutChart';
 import { RevenueByZoneChart } from '@/components/charts/RevenueByZoneChart';
+import { EnforcementTrendChart } from '@/components/charts/EnforcementTrendChart';
 import { getTicketStatusBadgeVariant } from '@/utils/status';
+
+type ChartView = 'compliance' | 'revenue' | 'trend';
 import styles from './DashboardPage.module.css';
 
 interface StatCardProps {
@@ -206,6 +210,7 @@ function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedAgent, setSelectedAgent] = useState<AgentActivity | null>(null);
+  const [chartView, setChartView] = useState<ChartView>('compliance');
 
   useEffect(() => {
     dashboardService
@@ -386,13 +391,39 @@ function AdminDashboard() {
 
       {/* Charts */}
       <div className={styles.sectionLabel}>Analytics</div>
-      <div className={styles.chartsGrid}>
-        <Card title="Compliance Overview">
-          <ComplianceDonutChart data={stats.compliance} />
-        </Card>
-        <Card title="Revenue by Zone">
-          <RevenueByZoneChart data={stats.revenue_by_zone} />
-        </Card>
+      <div className={styles.analyticsCard}>
+        <div className={styles.analyticsHeader}>
+          <h3 className={styles.analyticsTitle}>
+            {chartView === 'compliance' && 'Compliance Overview'}
+            {chartView === 'revenue' && 'Revenue by Zone'}
+            {chartView === 'trend' && 'Enforcement Trend'}
+          </h3>
+          <div className={styles.chartTabs}>
+            <button
+              className={`${styles.chartTab} ${chartView === 'compliance' ? styles.chartTabActive : ''}`}
+              onClick={() => setChartView('compliance')}
+            >
+              Compliance
+            </button>
+            <button
+              className={`${styles.chartTab} ${chartView === 'revenue' ? styles.chartTabActive : ''}`}
+              onClick={() => setChartView('revenue')}
+            >
+              Revenue
+            </button>
+            <button
+              className={`${styles.chartTab} ${chartView === 'trend' ? styles.chartTabActive : ''}`}
+              onClick={() => setChartView('trend')}
+            >
+              Trend
+            </button>
+          </div>
+        </div>
+        <div className={styles.chartContainer}>
+          {chartView === 'compliance' && <ComplianceDonutChart data={stats.compliance} />}
+          {chartView === 'revenue' && <RevenueByZoneChart data={stats.revenue_by_zone} />}
+          {chartView === 'trend' && <EnforcementTrendChart />}
+        </div>
       </div>
 
       {/* Agent Collections */}
@@ -415,68 +446,110 @@ function AdminDashboard() {
       </Card>
 
       {/* Agent Detail Modal */}
-      {selectedAgent && (
-        <Modal
-          title={`Agent: ${selectedAgent.agent_name}`}
-          onClose={() => setSelectedAgent(null)}
-        >
-          <div className={styles.agentDetail}>
-            <div className={styles.agentDetailGrid}>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Agent ID</span>
-                <span className={styles.agentFieldValue}>{selectedAgent.agent_id}</span>
-              </div>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Total Tickets</span>
-                <span className={styles.agentFieldValue}>{selectedAgent.tickets_total}</span>
-              </div>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Amount Issued</span>
-                <span className={styles.agentFieldValue}>{formatCurrency(selectedAgent.amount_issued)}</span>
-              </div>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Amount Collected</span>
-                <span className={styles.agentFieldValue} style={{ color: 'var(--color-success)' }}>
-                  {formatCurrency(selectedAgent.amount_collected)}
-                </span>
-              </div>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Collection Rate</span>
-                <span className={styles.agentFieldValue}>{selectedAgent.collection_rate}%</span>
-              </div>
-              <div className={styles.agentField}>
-                <span className={styles.agentFieldLabel}>Last Active</span>
-                <span className={styles.agentFieldValue}>{formatDateTime(selectedAgent.last_active)}</span>
-              </div>
-            </div>
+      {selectedAgent && (() => {
+        const agentUser = mockUsers.find((u) => u.agent_id === selectedAgent.agent_id);
+        const initials = selectedAgent.agent_name
+          .split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+        const rateVariant = selectedAgent.collection_rate >= 50
+          ? 'success' : selectedAgent.collection_rate >= 25 ? 'warning' : 'danger';
 
-            <h4 style={{ margin: 'var(--space-6) 0 var(--space-3)', fontSize: 'var(--text-sm)', color: 'var(--muted-foreground)' }}>
-              Collections by this agent
-            </h4>
-            <Table
-              columns={[
-                { key: 'ticket_number', header: 'Ticket' },
-                { key: 'plate_number', header: 'Plate' },
-                {
-                  key: 'amount',
-                  header: 'Amount',
-                  render: (row) => formatCurrency(row.amount as number),
-                },
-                {
-                  key: 'collected_at',
-                  header: 'Date',
-                  render: (row) => formatDateTime(row.collected_at as string),
-                },
-              ]}
-              data={
-                stats.agent_collections
-                  .filter((c) => c.agent_id === selectedAgent.agent_id) as unknown as Record<string, unknown>[]
-              }
-              emptyMessage="No collections"
-            />
-          </div>
-        </Modal>
-      )}
+        return (
+          <Modal
+            title="Agent Details"
+            onClose={() => setSelectedAgent(null)}
+          >
+            <div className={styles.agentDetail}>
+              {/* Profile Header */}
+              <div className={styles.agentProfileHeader}>
+                <div className={styles.agentAvatar}>{initials}</div>
+                <div className={styles.agentProfileInfo}>
+                  <h3 className={styles.agentProfileName}>{selectedAgent.agent_name}</h3>
+                  <span className={styles.agentProfileId}>{selectedAgent.agent_id}</span>
+                </div>
+                <Badge label="Active" variant="success" />
+              </div>
+
+              {/* Contact Info */}
+              {agentUser && (
+                <div className={styles.agentContactRow}>
+                  <div className={styles.agentContactItem}>
+                    <span className={styles.agentContactLabel}>Email</span>
+                    <span className={styles.agentContactValue}>{agentUser.email}</span>
+                  </div>
+                  <div className={styles.agentContactItem}>
+                    <span className={styles.agentContactLabel}>Phone</span>
+                    <span className={styles.agentContactValue}>{agentUser.phone}</span>
+                  </div>
+                  <div className={styles.agentContactItem}>
+                    <span className={styles.agentContactLabel}>Since</span>
+                    <span className={styles.agentContactValue}>{formatDateTime(agentUser.created_at)}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Performance Cards */}
+              <div className={styles.agentSectionLabel}>Performance</div>
+              <div className={styles.agentPerfGrid}>
+                <div className={styles.agentPerfCard}>
+                  <span className={styles.agentPerfValue}>{selectedAgent.tickets_total}</span>
+                  <span className={styles.agentPerfLabel}>Total Tickets</span>
+                </div>
+                <div className={styles.agentPerfCard}>
+                  <span className={styles.agentPerfValue}>{formatCurrency(selectedAgent.amount_issued)}</span>
+                  <span className={styles.agentPerfLabel}>Issued</span>
+                </div>
+                <div className={`${styles.agentPerfCard} ${styles.agentPerfHighlight}`}>
+                  <span className={styles.agentPerfValue} style={{ color: 'var(--color-success)' }}>
+                    {formatCurrency(selectedAgent.amount_collected)}
+                  </span>
+                  <span className={styles.agentPerfLabel}>Collected</span>
+                </div>
+                <div className={styles.agentPerfCard}>
+                  <Badge label={`${selectedAgent.collection_rate}%`} variant={rateVariant} />
+                  <span className={styles.agentPerfLabel}>Collection Rate</span>
+                </div>
+              </div>
+
+              {/* Recent Collections */}
+              <div className={styles.agentSectionLabel}>Recent Collections</div>
+              <Table
+                columns={[
+                  {
+                    key: 'ticket_number',
+                    header: 'Ticket',
+                    render: (row) => (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
+                        {row.ticket_number as string}
+                      </span>
+                    ),
+                  },
+                  { key: 'plate_number', header: 'Plate' },
+                  {
+                    key: 'amount',
+                    header: 'Amount',
+                    render: (row) => (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                        {formatCurrency(row.amount as number)}
+                      </span>
+                    ),
+                  },
+                  { key: 'location', header: 'Location' },
+                  {
+                    key: 'collected_at',
+                    header: 'Date',
+                    render: (row) => formatDateTime(row.collected_at as string),
+                  },
+                ]}
+                data={
+                  stats.agent_collections
+                    .filter((c) => c.agent_id === selectedAgent.agent_id) as unknown as Record<string, unknown>[]
+                }
+                emptyMessage="No collections yet"
+              />
+            </div>
+          </Modal>
+        );
+      })()}
     </div>
   );
 }
