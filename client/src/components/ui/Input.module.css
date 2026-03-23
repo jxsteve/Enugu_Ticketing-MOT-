@@ -1,13 +1,13 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 6px;
 }
 
 .label {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--foreground);
 }
 
 .inputContainer {
@@ -20,13 +20,13 @@
   width: 100%;
   padding: var(--space-2) var(--space-3);
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   outline: none;
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
   height: 40px;
 }
 
@@ -34,8 +34,14 @@
   color: var(--color-text-muted);
 }
 
+.input:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
 .input:focus {
-  border-color: var(--color-accent);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .hasIcon {
@@ -47,15 +53,25 @@
   left: var(--space-3);
   display: flex;
   align-items: center;
-  color: var(--color-text-muted);
+  color: var(--muted-foreground);
   pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+/* Icon changes color when input is focused */
+.inputContainer:focus-within .iconWrapper {
+  color: var(--primary);
 }
 
 .error .input {
-  border-color: var(--color-danger);
+  border-color: var(--destructive);
+}
+
+.error .input:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
 }
 
 .errorText {
   font-size: var(--text-xs);
-  color: var(--color-danger);
+  color: var(--destructive);
 }

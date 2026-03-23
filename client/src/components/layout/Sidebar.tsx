@@ -30,14 +30,27 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { user, logout } = useAuth();
 
+  const initials = user?.name
+    ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : 'U';
+
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
       <div className={styles.logo}>
-        {!collapsed && <span className={styles.logoText}>Enugu MOT</span>}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className={styles.logoMark}>E</div>
+          {!collapsed && (
+            <span className={styles.logoText}>
+              Enugu <span>MOT</span>
+            </span>
+          )}
+        </div>
         <button className={styles.toggle} onClick={onToggle}>
-          {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
       </div>
+
+      {!collapsed && <div className={styles.sectionLabel}>Navigation</div>}
 
       <nav className={styles.nav}>
         {navItems.map(({ to, icon: Icon, label }) => (
@@ -48,7 +61,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               `${styles.navItem} ${isActive ? styles.active : ''}`
             }
           >
-            <Icon size={20} />
+            <Icon size={19} strokeWidth={1.8} />
             {!collapsed && <span>{label}</span>}
           </NavLink>
         ))}
@@ -56,13 +69,16 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       <div className={styles.footer}>
         {!collapsed && user && (
-          <div className={styles.userInfo}>
-            <div className={styles.userName}>{user.name}</div>
-            <div className={styles.userRole}>{user.role}</div>
+          <div className={styles.userSection}>
+            <div className={styles.userAvatar}>{initials}</div>
+            <div className={styles.userInfo}>
+              <div className={styles.userName}>{user.name}</div>
+              <div className={styles.userRole}>{user.role}</div>
+            </div>
           </div>
         )}
         <button className={styles.logoutBtn} onClick={logout}>
-          <LogOut size={18} />
+          <LogOut size={17} strokeWidth={1.8} />
           {!collapsed && <span>Logout</span>}
         </button>
       </div>

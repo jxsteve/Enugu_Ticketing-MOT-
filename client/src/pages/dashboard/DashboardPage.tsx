@@ -1,4 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import {
+  Users,
+  ShieldCheck,
+  ShieldAlert,
+  Clock,
+  FileText,
+  Banknote,
+  Wallet,
+  CalendarDays,
+  TrendingUp,
+  TrendingDown,
+} from 'lucide-react';
 import { dashboardService } from '@/services/dashboardService';
 import type { DashboardStats } from '@/types';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -11,6 +23,36 @@ import { RevenueByZoneChart } from '@/components/charts/RevenueByZoneChart';
 import { UnpaidAgingChart } from '@/components/charts/UnpaidAgingChart';
 import { EnforcementTrendChart } from '@/components/charts/EnforcementTrendChart';
 import styles from './DashboardPage.module.css';
+
+interface StatCardProps {
+  label: string;
+  value: string | number;
+  icon: React.ReactNode;
+  color?: string;
+  trend?: 'up' | 'down' | 'neutral';
+  delay?: number;
+}
+
+function StatCard({ label, value, icon, color, trend, delay = 0 }: StatCardProps) {
+  return (
+    <div className={styles.statCard} style={{ animationDelay: `${delay}ms` }}>
+      <div className={styles.statTop}>
+        <div className={styles.statIconWrapper} style={{ color: color || 'var(--muted-foreground)' }}>
+          {icon}
+        </div>
+        {trend && trend !== 'neutral' && (
+          <div className={`${styles.trend} ${styles[trend]}`}>
+            {trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+          </div>
+        )}
+      </div>
+      <div className={styles.statValue} style={{ color: color || 'var(--foreground)' }}>
+        {value}
+      </div>
+      <div className={styles.statLabel}>{label}</div>
+    </div>
+  );
+}
 
 export const DashboardPage: React.FC = () => {
   useDocumentTitle('Dashboard');
@@ -50,57 +92,78 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.pageTitle}>Dashboard</h1>
+      <div className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Dashboard</h1>
+        <p className={styles.pageSubtitle}>Real-time enforcement overview</p>
+      </div>
 
-      {/* Stat Cards */}
+      {/* Compliance Stats */}
+      <div className={styles.sectionLabel}>Compliance</div>
       <div className={styles.statsGrid}>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Total Drivers</div>
-          <div className={styles.statValue}>{stats.compliance.total_drivers}</div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Compliant</div>
-          <div className={styles.statValue} style={{ color: 'var(--color-success)' }}>
-            {stats.compliance.compliant}
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Non-Compliant</div>
-          <div className={styles.statValue} style={{ color: 'var(--color-danger)' }}>
-            {stats.compliance.non_compliant}
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Pending Review</div>
-          <div className={styles.statValue} style={{ color: 'var(--color-warning)' }}>
-            {stats.compliance.pending}
-          </div>
-        </Card>
+        <StatCard
+          label="Total Drivers"
+          value={stats.compliance.total_drivers}
+          icon={<Users size={18} strokeWidth={1.8} />}
+          delay={0}
+        />
+        <StatCard
+          label="Compliant"
+          value={stats.compliance.compliant}
+          icon={<ShieldCheck size={18} strokeWidth={1.8} />}
+          color="var(--color-success)"
+          trend="up"
+          delay={50}
+        />
+        <StatCard
+          label="Non-Compliant"
+          value={stats.compliance.non_compliant}
+          icon={<ShieldAlert size={18} strokeWidth={1.8} />}
+          color="var(--color-danger)"
+          trend="down"
+          delay={100}
+        />
+        <StatCard
+          label="Pending Review"
+          value={stats.compliance.pending}
+          icon={<Clock size={18} strokeWidth={1.8} />}
+          color="var(--color-warning)"
+          delay={150}
+        />
       </div>
 
       {/* Enforcement Metrics */}
-      <div className={styles.metricsGrid}>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Tickets Today</div>
-          <div className={styles.statValue}>{stats.enforcement.tickets_today}</div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Issued Today</div>
-          <div className={styles.statValue}>{formatCurrency(stats.enforcement.amount_issued_today)}</div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Collected Today</div>
-          <div className={styles.statValue} style={{ color: 'var(--color-success)' }}>
-            {formatCurrency(stats.enforcement.amount_collected_today)}
-          </div>
-        </Card>
-        <Card className={styles.statCard}>
-          <div className={styles.statLabel}>Tickets This Week</div>
-          <div className={styles.statValue}>{stats.enforcement.tickets_this_week}</div>
-        </Card>
+      <div className={styles.sectionLabel}>Enforcement</div>
+      <div className={styles.statsGrid}>
+        <StatCard
+          label="Tickets Today"
+          value={stats.enforcement.tickets_today}
+          icon={<FileText size={18} strokeWidth={1.8} />}
+          delay={0}
+        />
+        <StatCard
+          label="Issued Today"
+          value={formatCurrency(stats.enforcement.amount_issued_today)}
+          icon={<Banknote size={18} strokeWidth={1.8} />}
+          delay={50}
+        />
+        <StatCard
+          label="Collected Today"
+          value={formatCurrency(stats.enforcement.amount_collected_today)}
+          icon={<Wallet size={18} strokeWidth={1.8} />}
+          color="var(--color-success)"
+          trend="up"
+          delay={100}
+        />
+        <StatCard
+          label="Tickets This Week"
+          value={stats.enforcement.tickets_this_week}
+          icon={<CalendarDays size={18} strokeWidth={1.8} />}
+          delay={150}
+        />
       </div>
 
       {/* Charts */}
+      <div className={styles.sectionLabel}>Analytics</div>
       <div className={styles.chartsGrid}>
         <Card title="Compliance Overview">
           <ComplianceDonutChart data={stats.compliance} />
@@ -117,6 +180,7 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Agent Activity */}
+      <div className={styles.sectionLabel}>Team Activity</div>
       <Card title="Agent Activity">
         <Table
           columns={agentColumns}

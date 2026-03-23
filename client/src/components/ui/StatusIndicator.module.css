@@ -9,6 +9,23 @@
   height: 8px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
+  position: relative;
+}
+
+/* Pulse ring on active statuses */
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-full);
+  border: 1px solid currentColor;
+  opacity: 0;
+  animation: statusPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.4); }
 }
 
 .text {
@@ -16,31 +33,40 @@
   font-weight: 500;
 }
 
-/* Status colors */
 .compliant .dot {
   background-color: var(--color-success);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.35);
+  color: var(--color-success);
 }
 .compliant .text {
-  color: var(--color-success);
+  color: #4ade80;
 }
 
 .nonCompliant .dot {
-  background-color: var(--color-danger);
+  background-color: var(--destructive);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.35);
+  color: var(--destructive);
 }
 .nonCompliant .text {
-  color: var(--color-danger);
+  color: #f87171;
 }
 
 .pending .dot {
-  background-color: var(--color-warning);
+  background-color: var(--primary);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
+  color: var(--primary);
 }
 .pending .text {
-  color: var(--color-warning);
+  color: var(--chart-1);
 }
 
 .expired .dot {
-  background-color: var(--color-text-muted);
+  background-color: var(--muted-foreground);
+  color: var(--muted-foreground);
+}
+.expired .dot::after {
+  display: none;
 }
 .expired .text {
-  color: var(--color-text-muted);
+  color: var(--muted-foreground);
 }

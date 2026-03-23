@@ -1,15 +1,16 @@
 .page {
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  animation: fadeInUp 0.35s ease;
 }
 
 .pageTitle {
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .searchForm {
@@ -21,40 +22,49 @@
 .searchInput {
   flex: 1;
   padding: var(--space-3) var(--space-4);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--color-text-primary);
-  font-size: var(--text-base);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--foreground);
+  font-size: var(--text-sm);
   font-family: var(--font-sans);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
 .searchInput::placeholder {
   color: var(--color-text-muted);
 }
 
+.searchInput:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
 .searchInput:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--color-danger);
-  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.12);
+  border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
-  color: var(--color-danger);
+  color: #f87171;
   font-size: var(--text-sm);
+  animation: fadeInUp 0.3s ease;
 }
 
 .success {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid var(--color-success);
-  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.12);
+  border-radius: var(--radius-md);
   padding: var(--space-4);
-  color: var(--color-success);
+  color: #4ade80;
   font-size: var(--text-base);
   font-weight: 600;
+  animation: fadeInUp 0.3s ease;
 }
 
 .loading {
@@ -66,6 +76,7 @@
 
 .driverCard {
   max-width: 700px;
+  animation: fadeInUp 0.4s ease;
 }
 
 .driverHeader {
@@ -81,21 +92,23 @@
 .photo {
   width: 80px;
   height: 80px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   object-fit: cover;
+  border: 2px solid var(--border);
 }
 
 .photoPlaceholder {
   width: 80px;
   height: 80px;
-  border-radius: 10px;
-  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.03));
+  border: 2px solid rgba(245, 158, 11, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--primary);
 }
 
 .driverInfo {
@@ -105,33 +118,37 @@
 .driverName {
   font-size: var(--text-xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0 0 var(--space-1);
+  letter-spacing: -0.02em;
 }
 
 .driverPlate {
   font-family: var(--font-mono);
   font-size: var(--text-lg);
-  color: var(--color-accent);
+  color: var(--primary);
   margin: 0 0 var(--space-1);
+  font-weight: 600;
 }
 
 .driverType {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--muted-foreground);
   margin: 0;
 }
 
 .complianceStatus {
-  border: 2px solid;
-  border-radius: 8px;
+  border: 1px solid;
+  border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .ticketSection {
   margin-top: var(--space-6);
   padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -140,8 +157,9 @@
 .ticketTitle {
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .offenceSelect {
@@ -152,32 +170,44 @@
 
 .selectLabel {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--muted-foreground);
+  font-weight: 500;
 }
 
 .select {
   padding: var(--space-3) var(--space-4);
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--foreground);
   font-size: var(--text-sm);
   font-family: var(--font-sans);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.select:hover {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .select:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
 }
 
 .fineAmount {
   font-size: var(--text-base);
-  color: var(--color-text-secondary);
+  color: var(--muted-foreground);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(239, 68, 68, 0.04);
+  border: 1px solid rgba(239, 68, 68, 0.08);
+  border-radius: var(--radius-md);
 }
 
 .fineAmount strong {
-  color: var(--color-danger);
+  color: var(--destructive);
   font-size: var(--text-lg);
+  font-family: var(--font-mono);
 }
 
 .issueButton {
