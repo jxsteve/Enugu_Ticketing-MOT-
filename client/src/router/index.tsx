@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { LoginPage } from '@/pages/login/LoginPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { DriversPage } from '@/pages/drivers/DriversPage';
@@ -20,26 +21,26 @@ export function AppRouter() {
       {/* All authenticated users */}
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/tickets" element={<TicketsPage />} />
-          <Route path="/tickets/:id" element={<TicketDetailPage />} />
+          <Route path="/dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
+          <Route path="/tickets" element={<ErrorBoundary><TicketsPage /></ErrorBoundary>} />
+          <Route path="/tickets/:id" element={<ErrorBoundary><TicketDetailPage /></ErrorBoundary>} />
 
           {/* Agent + Admin + Supervisor */}
           <Route element={<ProtectedRoute allowedRoles={['Admin', 'Supervisor', 'Agent']} />}>
-            <Route path="/enforcement" element={<EnforcementPage />} />
+            <Route path="/enforcement" element={<ErrorBoundary><EnforcementPage /></ErrorBoundary>} />
           </Route>
 
           {/* Admin + Supervisor + Finance — not agents */}
           <Route element={<ProtectedRoute allowedRoles={['Admin', 'Supervisor', 'Finance']} />}>
-            <Route path="/drivers" element={<DriversPage />} />
-            <Route path="/drivers/:id" element={<DriverDetailPage />} />
-            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/drivers" element={<ErrorBoundary><DriversPage /></ErrorBoundary>} />
+            <Route path="/drivers/:id" element={<ErrorBoundary><DriverDetailPage /></ErrorBoundary>} />
+            <Route path="/reports" element={<ErrorBoundary><ReportsPage /></ErrorBoundary>} />
           </Route>
 
           {/* Admin only */}
           <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
-            <Route path="/agents" element={<AgentsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/agents" element={<ErrorBoundary><AgentsPage /></ErrorBoundary>} />
+            <Route path="/settings" element={<ErrorBoundary><SettingsPage /></ErrorBoundary>} />
           </Route>
         </Route>
       </Route>

@@ -452,6 +452,81 @@
   color: var(--foreground);
 }
 
+/* ── Utility classes (replaces inline styles) ──────────── */
+
+.monoText {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.monoAmount {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.successMono {
+  color: var(--color-success);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.successText {
+  color: var(--color-success);
+}
+
+.viewButton {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  font-family: var(--font-sans);
+  transition: all var(--transition-fast);
+}
+
+.viewButton:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.viewButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .statCard {
+    animation: none;
+  }
+
+  .statCard:hover {
+    transform: none;
+  }
+
+  .analyticsCard {
+    animation: none;
+  }
+
+  .ctaBanner {
+    animation: none;
+  }
+
+  .ctaBanner:hover {
+    transform: none;
+  }
+
+  .alertBanner {
+    animation: none;
+  }
+}
+
 @media (max-width: 640px) {
   .ctaBanner {
     flex-direction: column;

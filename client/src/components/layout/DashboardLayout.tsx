@@ -9,10 +9,13 @@ export function DashboardLayout() {
 
   return (
     <div className={`${styles.layout} ${collapsed ? styles.collapsed : ''}`}>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       <div className={styles.main}>
         <TopBar />
-        <main className={styles.content}>
+        <main id="main-content" className={styles.content}>
           <Outlet />
         </main>
       </div>

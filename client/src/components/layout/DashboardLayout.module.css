@@ -23,3 +23,13 @@
   padding: var(--space-6);
   animation: fadeInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .layout {
+    transition: none;
+  }
+  .content {
+    animation: none;
+  }
+}

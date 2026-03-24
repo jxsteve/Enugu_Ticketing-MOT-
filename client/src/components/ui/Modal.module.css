@@ -23,7 +23,6 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   width: 100%;
-  max-width: 600px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -31,6 +30,11 @@
   position: relative;
   overflow: hidden;
 }
+
+/* Size variants */
+.sm { max-width: 420px; }
+.md { max-width: 600px; }
+.lg { max-width: 800px; }
 
 /* Top highlight */
 .modal::before {
@@ -73,14 +77,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   background: none;
   border: 1px solid transparent;
   color: var(--muted-foreground);
   cursor: pointer;
   border-radius: var(--radius-md);
-  font-size: var(--text-xl);
   transition: all var(--transition-fast);
 }
 
@@ -90,10 +93,16 @@
   border-color: var(--border);
 }
 
+.closeButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 .body {
   padding: var(--space-6);
   overflow-y: auto;
   flex: 1;
+  overscroll-behavior: contain;
 }
 
 .footer {
@@ -103,4 +112,14 @@
   gap: var(--space-3);
   padding: var(--space-4) var(--space-6);
   border-top: 1px solid var(--border);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
+  .modal {
+    animation: none;
+  }
 }

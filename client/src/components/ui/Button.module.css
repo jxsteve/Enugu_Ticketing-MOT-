@@ -24,12 +24,30 @@
   transform: scale(0.97);
 }
 
+.button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Content wrapper preserves layout during loading */
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: opacity var(--transition-fast);
+}
+
+.contentHidden {
+  opacity: 0;
+}
+
 /* Sizes */
 .sm {
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-sm);
   border-radius: var(--radius-md);
   height: 32px;
+  min-width: 64px;
 }
 
 .md {
@@ -37,6 +55,7 @@
   font-size: var(--text-sm);
   border-radius: var(--radius-md);
   height: 38px;
+  min-width: 80px;
 }
 
 .lg {
@@ -44,6 +63,7 @@
   font-size: var(--text-base);
   border-radius: var(--radius-md);
   height: 44px;
+  min-width: 96px;
 }
 
 /* Variants */
@@ -93,7 +113,6 @@
 /* Loading */
 .loading {
   position: relative;
-  color: transparent !important;
   pointer-events: none;
 }
 
@@ -128,6 +147,32 @@
   flex-shrink: 0;
 }
 
+/* Screen reader only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+  .button:active:not(:disabled) {
+    transform: none;
+  }
+  .spinnerIcon {
+    animation-duration: 1.5s;
+  }
 }

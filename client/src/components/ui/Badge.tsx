@@ -15,8 +15,12 @@ export const Badge: React.FC<BadgeProps> = ({
   className,
 }) => {
   return (
-    <span className={`${styles.badge} ${styles[variant]} ${className ?? ''}`}>
-      {label}
+    <span
+      className={`${styles.badge} ${styles[variant]} ${className ?? ''}`}
+      role="status"
+    >
+      <span className={styles.dot} aria-hidden="true" />
+      <span>{label}</span>
     </span>
   );
 };

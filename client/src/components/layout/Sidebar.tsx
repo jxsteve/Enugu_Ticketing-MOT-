@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
-  Landmark,
   UserCog,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -39,11 +38,18 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     : 'U';
 
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+    <aside
+      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}
+      aria-label="Main navigation"
+    >
       <div className={styles.logo}>
         <div className={styles.logoInner}>
           <div className={styles.logoMark}>
-            <Landmark size={20} strokeWidth={1.6} />
+            <img
+              src="/images/enugu-coat-of-arms.png"
+              alt="Enugu State"
+              className={styles.logoImg}
+            />
           </div>
           {!collapsed && (
             <span className={styles.logoText}>
@@ -51,14 +57,19 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </span>
           )}
         </div>
-        <button className={styles.toggle} onClick={onToggle}>
+        <button
+          className={styles.toggle}
+          onClick={onToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          type="button"
+        >
           {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
       </div>
 
       {!collapsed && <div className={styles.sectionLabel}>Navigation</div>}
 
-      <nav className={styles.nav}>
+      <nav className={styles.nav} aria-label="Primary">
         {navItems
           .filter(({ roles }) => !roles || (user && roles.includes(user.role)))
           .map(({ to, icon: Icon, label }) => (
@@ -85,7 +96,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </div>
           </div>
         )}
-        <button className={styles.logoutBtn} onClick={logout}>
+        <button className={styles.logoutBtn} onClick={logout} aria-label="Logout" type="button">
           <LogOut size={17} strokeWidth={1.8} />
           {!collapsed && <span>Logout</span>}
         </button>

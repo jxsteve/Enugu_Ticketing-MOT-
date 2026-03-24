@@ -357,7 +357,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .fieldWrapper:hover {
@@ -365,8 +365,8 @@
 }
 
 .fieldFocused {
-  border-color: rgba(22, 163, 74, 0.5) !important;
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.6) !important;
+  background: rgba(22, 163, 74, 0.03);
 }
 
 .fieldIcon {
@@ -392,12 +392,57 @@
   letter-spacing: 0.01em;
 }
 
+.fieldInput:focus,
 .fieldInput:focus-visible {
   outline: none;
+  box-shadow: none;
 }
 
 .fieldInput::placeholder {
   color: #334155;
+}
+
+.passwordToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 6px;
+  background: none;
+  border: none;
+  color: #475569;
+  cursor: pointer;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.passwordToggle:hover {
+  color: #94a3b8;
+}
+
+.fieldError {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.fieldErrorText {
+  font-size: 0.78rem;
+  color: #fca5a5;
+  margin-top: -2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Submit button */
@@ -511,6 +556,31 @@
 
   .formTitle {
     font-size: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leftPanel,
+  .rightPanel {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .securityDot {
+    animation: none;
+  }
+
+  .submitBtn::before {
+    display: none;
+  }
+
+  .submitBtn:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .errorBox {
+    animation: none;
   }
 }
 

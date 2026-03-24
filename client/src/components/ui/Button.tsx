@@ -32,14 +32,23 @@ export const Button: React.FC<ButtonProps> = ({
     .join(' ');
 
   return (
-    <button className={classNames} disabled={disabled || loading} {...rest}>
+    <button
+      className={classNames}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      aria-disabled={disabled || loading || undefined}
+      {...rest}
+    >
       {loading && (
-        <span className={styles.spinnerWrapper}>
+        <span className={styles.spinnerWrapper} aria-hidden="true">
           <span className={styles.spinnerIcon} />
         </span>
       )}
-      {icon && <span className={styles.icon}>{icon}</span>}
-      {children}
+      <span className={`${styles.content} ${loading ? styles.contentHidden : ''}`}>
+        {icon && <span className={styles.icon}>{icon}</span>}
+        {children}
+      </span>
+      {loading && <span className={styles.srOnly}>Loading...</span>}
     </button>
   );
 };

@@ -329,16 +329,17 @@ export const EnforcementPage: React.FC = () => {
               <Search size={16} className={styles.searchIcon} />
               <input
                 className={styles.searchInput}
-                type="text"
+                type="search"
                 placeholder="Enter plate number, name, or phone..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search drivers by plate number, name, or phone"
               />
             </div>
             <Button type="submit" loading={loading}>Search</Button>
           </form>
 
-          {error && <div className={styles.error}>{error}</div>}
+          {error && <div className={styles.error} role="alert">{error}</div>}
 
           {loading && (
             <div className={styles.loading}><Spinner size="lg" /></div>
@@ -417,7 +418,7 @@ export const EnforcementPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {registerError && <div className={styles.error}>{registerError}</div>}
+                  {registerError && <div className={styles.error} role="alert">{registerError}</div>}
 
                   {/* Duplicate warning */}
                   {duplicateDriver && (
@@ -546,7 +547,7 @@ export const EnforcementPage: React.FC = () => {
               {/* Step 2: Ticket Issued — Payment Instructions */}
               {flowStep === 'ticket-issued' && issuedTicket && (
                 <div className={styles.ticketSection}>
-                  <div className={styles.successBanner}>
+                  <div className={styles.successBanner} role="status" aria-live="polite">
                     <CheckCircle size={20} />
                     <span>Ticket <strong>{issuedTicket.ticket_number}</strong> issued successfully</span>
                   </div>
@@ -627,7 +628,7 @@ export const EnforcementPage: React.FC = () => {
               {/* Step 4: Receipt with QR Code */}
               {flowStep === 'payment-confirmed' && issuedTicket && driver && (
                 <div className={styles.ticketSection}>
-                  <div className={styles.successBanner}>
+                  <div className={styles.successBanner} role="status" aria-live="polite">
                     <CheckCircle size={20} />
                     <span>Payment confirmed. Receipt generated.</span>
                   </div>
@@ -726,19 +727,20 @@ export const EnforcementPage: React.FC = () => {
               <QrCode size={16} className={styles.searchIcon} />
               <input
                 className={styles.searchInput}
-                type="text"
+                type="search"
                 placeholder="e.g. RCT-20260312-00001 or PAY-20260120-001"
                 value={verifyQuery}
                 onChange={(e) => setVerifyQuery(e.target.value)}
+                aria-label="Enter receipt or ticket number to verify"
               />
             </div>
             <Button type="submit" loading={verifying}>Verify</Button>
           </form>
 
-          {verifyError && <div className={styles.error}>{verifyError}</div>}
+          {verifyError && <div className={styles.error} role="alert">{verifyError}</div>}
 
           {verifiedTicket && (
-            <div className={styles.verifiedBanner}>
+            <div className={styles.verifiedBanner} role="status" aria-live="polite">
               <ShieldCheck size={20} />
               <div className={styles.verifiedContent}>
                 <strong>Payment Verified</strong>

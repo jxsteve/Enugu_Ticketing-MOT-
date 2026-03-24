@@ -40,3 +40,10 @@
 .action {
   margin-top: var(--space-2);
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .wrapper {
+    animation: none;
+  }
+}

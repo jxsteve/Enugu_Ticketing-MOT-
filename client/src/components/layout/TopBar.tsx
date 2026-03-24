@@ -36,7 +36,7 @@ export function TopBar() {
   return (
     <header className={styles.topbar}>
       <div className={styles.left}>
-        <div className={styles.breadcrumb}>
+        <div className={styles.breadcrumb} aria-label="Breadcrumb" role="navigation">
           <span className={styles.breadcrumbRoot}>Enugu MOT</span>
           <ChevronRight size={14} className={styles.breadcrumbSep} />
           <span className={styles.breadcrumbCurrent}>{title}</span>
@@ -53,9 +53,13 @@ export function TopBar() {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.notificationBtn}>
+        <button
+          className={styles.notificationBtn}
+          aria-label="Notifications"
+          type="button"
+        >
           <Bell size={18} strokeWidth={1.8} />
-          <span className={styles.notificationDot} />
+          <span className={styles.notificationDot} aria-hidden="true" />
         </button>
 
         <div className={styles.divider} />

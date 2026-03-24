@@ -93,7 +93,8 @@
 .searchInput {
   width: 100%;
   padding: var(--space-3) var(--space-4) var(--space-3) 40px;
-  background: rgba(255, 255, 255, 0.02);
+  height: 44px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--foreground);
@@ -214,7 +215,8 @@
 .formInput,
 .formSelect {
   padding: var(--space-3) var(--space-4);
-  background: rgba(255, 255, 255, 0.02);
+  height: 44px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--foreground);
@@ -847,5 +849,23 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .page,
+  .tabContent,
+  .error,
+  .successBanner,
+  .verifiedBanner,
+  .paidAlert,
+  .registerForm,
+  .notFoundCard,
+  .driverCard,
+  .receiptCard,
+  .duplicateWarning {
+    animation: none;
   }
 }

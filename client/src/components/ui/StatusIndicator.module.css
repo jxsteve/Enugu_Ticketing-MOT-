@@ -70,3 +70,10 @@
 .expired .text {
   color: var(--muted-foreground);
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .dot::after {
+    animation: none;
+  }
+}

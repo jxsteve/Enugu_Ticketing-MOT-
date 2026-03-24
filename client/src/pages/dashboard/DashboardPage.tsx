@@ -94,9 +94,7 @@ function AgentDashboard({ user }: { user: { name: string; agent_id: string } }) 
       key: 'ticket_number',
       header: 'Ticket',
       render: (row) => (
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
-          {row.ticket_number as string}
-        </span>
+        <span className={styles.monoText}>{row.ticket_number as string}</span>
       ),
     },
     { key: 'plate_number', header: 'Plate' },
@@ -105,9 +103,7 @@ function AgentDashboard({ user }: { user: { name: string; agent_id: string } }) 
       key: 'amount',
       header: 'Amount',
       render: (row) => (
-        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
-          {formatCurrency(row.amount as number)}
-        </span>
+        <span className={styles.monoAmount}>{formatCurrency(row.amount as number)}</span>
       ),
     },
     {
@@ -116,7 +112,7 @@ function AgentDashboard({ user }: { user: { name: string; agent_id: string } }) 
       render: (row) => (
         <Badge
           label={row.status as string}
-          variant={getTicketStatusBadgeVariant(row.status as string)}
+          variant={getTicketStatusBadgeVariant(row.status as import('@/types').TicketStatus)}
         />
       ),
     },
@@ -240,9 +236,7 @@ function AdminDashboard() {
       key: 'amount_collected',
       header: 'Collected',
       render: (row) => (
-        <span style={{ color: 'var(--color-success)', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
-          {formatCurrency(row.amount_collected as number)}
-        </span>
+        <span className={styles.successMono}>{formatCurrency(row.amount_collected as number)}</span>
       ),
     },
     {
@@ -264,31 +258,12 @@ function AdminDashboard() {
       header: '',
       render: (row) => (
         <button
+          className={styles.viewButton}
           onClick={() => setSelectedAgent(
             stats.agents.find((a) => a.agent_id === row.agent_id) || null
           )}
-          style={{
-            background: 'none',
-            border: '1px solid var(--border)',
-            color: 'var(--muted-foreground)',
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: 'var(--radius-md)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
-            fontSize: 'var(--text-xs)',
-            fontFamily: 'var(--font-sans)',
-            transition: 'all 150ms ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--primary)';
-            e.currentTarget.style.color = 'var(--primary)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--border)';
-            e.currentTarget.style.color = 'var(--muted-foreground)';
-          }}
+          aria-label={`View details for ${row.agent_name}`}
+          type="button"
         >
           <Eye size={13} /> View
         </button>
@@ -304,9 +279,7 @@ function AdminDashboard() {
       key: 'amount',
       header: 'Amount',
       render: (row) => (
-        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
-          {formatCurrency(row.amount as number)}
-        </span>
+        <span className={styles.monoAmount}>{formatCurrency(row.amount as number)}</span>
       ),
     },
     {
@@ -499,7 +472,7 @@ function AdminDashboard() {
                   <span className={styles.agentPerfLabel}>Issued</span>
                 </div>
                 <div className={`${styles.agentPerfCard} ${styles.agentPerfHighlight}`}>
-                  <span className={styles.agentPerfValue} style={{ color: 'var(--color-success)' }}>
+                  <span className={`${styles.agentPerfValue} ${styles.successText}`}>
                     {formatCurrency(selectedAgent.amount_collected)}
                   </span>
                   <span className={styles.agentPerfLabel}>Collected</span>
@@ -518,9 +491,7 @@ function AdminDashboard() {
                     key: 'ticket_number',
                     header: 'Ticket',
                     render: (row) => (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
-                        {row.ticket_number as string}
-                      </span>
+                      <span className={styles.monoText}>{row.ticket_number as string}</span>
                     ),
                   },
                   { key: 'plate_number', header: 'Plate' },
@@ -528,9 +499,7 @@ function AdminDashboard() {
                     key: 'amount',
                     header: 'Amount',
                     render: (row) => (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
-                        {formatCurrency(row.amount as number)}
-                      </span>
+                      <span className={styles.monoAmount}>{formatCurrency(row.amount as number)}</span>
                     ),
                   },
                   { key: 'location', header: 'Location' },

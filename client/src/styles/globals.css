@@ -40,7 +40,7 @@
 
   /* Foreground variants */
   --card-foreground: #e5e5e5;
-  --muted-foreground: #888888;
+  --muted-foreground: #9ca3af;
   --accent-foreground: #bbf7d0;
   --popover-foreground: #e5e5e5;
   --primary-foreground: #ffffff;
@@ -67,7 +67,7 @@
 
   --color-text-primary: var(--foreground);
   --color-text-secondary: var(--muted-foreground);
-  --color-text-muted: #666666;
+  --color-text-muted: #6b7280;
 
   --color-accent: var(--primary);
   --color-accent-hover: #15803d;
@@ -172,6 +172,19 @@ a:hover {
   border-radius: var(--radius);
 }
 
+/* ── Reduced Motion ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Scrollbar ──────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
@@ -272,4 +285,52 @@ a:hover {
 @keyframes breathe {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
+}
+
+/* ── Reduced Motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Skip Link ─────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-2) var(--space-4);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ── Screen Reader Only ────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

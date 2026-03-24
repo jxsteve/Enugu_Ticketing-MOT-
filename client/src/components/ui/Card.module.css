@@ -55,3 +55,10 @@
 .body {
   color: var(--card-foreground);
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

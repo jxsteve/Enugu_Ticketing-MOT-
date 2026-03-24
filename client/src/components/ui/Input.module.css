@@ -8,6 +8,14 @@
   font-size: var(--text-sm);
   font-weight: 500;
   color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: var(--destructive);
+  font-weight: 600;
 }
 
 .inputContainer {
@@ -48,6 +56,10 @@
   padding-left: var(--space-10);
 }
 
+.hasToggle {
+  padding-right: var(--space-10);
+}
+
 .iconWrapper {
   position: absolute;
   left: var(--space-3);
@@ -63,6 +75,26 @@
   color: var(--primary);
 }
 
+.passwordToggle {
+  position: absolute;
+  right: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: color var(--transition-fast);
+}
+
+.passwordToggle:hover {
+  color: var(--foreground);
+}
+
 .error .input {
   border-color: var(--destructive);
 }
@@ -74,4 +106,12 @@
 .errorText {
   font-size: var(--text-xs);
   color: var(--destructive);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.helperText {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
 }
