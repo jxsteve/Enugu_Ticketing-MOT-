@@ -9,17 +9,20 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  UserCog,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import type { UserRole } from '@/types';
 import styles from './Sidebar.module.css';
 
-const navItems = [
+const navItems: { to: string; icon: typeof LayoutDashboard; label: string; roles?: UserRole[] }[] = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/drivers', icon: Users, label: 'Drivers' },
-  { to: '/enforcement', icon: Shield, label: 'Enforcement' },
+  { to: '/drivers', icon: Users, label: 'Drivers', roles: ['Admin', 'Supervisor', 'Finance'] },
+  { to: '/enforcement', icon: Shield, label: 'Enforcement', roles: ['Admin', 'Supervisor', 'Agent'] },
   { to: '/tickets', icon: FileText, label: 'Tickets' },
-  { to: '/reports', icon: BarChart3, label: 'Reports' },
-  { to: '/settings', icon: Settings, label: 'Settings' },
+  { to: '/reports', icon: BarChart3, label: 'Reports', roles: ['Admin', 'Supervisor', 'Finance'] },
+  { to: '/agents', icon: UserCog, label: 'Agents', roles: ['Admin'] },
+  { to: '/settings', icon: Settings, label: 'Settings', roles: ['Admin'] },
 ];
 
 interface SidebarProps {
@@ -30,17 +33,46 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { user, logout } = useAuth();
 
+  const initials = user?.name
+    ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : 'U';
+
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+    <aside
+      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}
+      aria-label="Main navigation"
+    >
       <div className={styles.logo}>
-        {!collapsed && <span className={styles.logoText}>Enugu MOT</span>}
-        <button className={styles.toggle} onClick={onToggle}>
-          {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+        <div className={styles.logoInner}>
+          <div className={styles.logoMark}>
+            <img
+              src="/images/enugu-coat-of-arms.png"
+              alt="Enugu State"
+              className={styles.logoImg}
+            />
+          </div>
+          {!collapsed && (
+            <span className={styles.logoText}>
+              Enugu <span>MOT</span>
+            </span>
+          )}
+        </div>
+        <button
+          className={styles.toggle}
+          onClick={onToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          type="button"
+        >
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
       </div>
 
-      <nav className={styles.nav}>
-        {navItems.map(({ to, icon: Icon, label }) => (
+      {!collapsed && <div className={styles.sectionLabel}>Navigation</div>}
+
+      <nav className={styles.nav} aria-label="Primary">
+        {navItems
+          .filter(({ roles }) => !roles || (user && roles.includes(user.role)))
+          .map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
@@ -48,7 +80,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               `${styles.navItem} ${isActive ? styles.active : ''}`
             }
           >
-            <Icon size={20} />
+            <Icon size={19} strokeWidth={1.8} />
             {!collapsed && <span>{label}</span>}
           </NavLink>
         ))}
@@ -56,13 +88,16 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       <div className={styles.footer}>
         {!collapsed && user && (
-          <div className={styles.userInfo}>
-            <div className={styles.userName}>{user.name}</div>
-            <div className={styles.userRole}>{user.role}</div>
+          <div className={styles.userSection}>
+            <div className={styles.userAvatar}>{initials}</div>
+            <div className={styles.userInfo}>
+              <div className={styles.userName}>{user.name}</div>
+              <div className={styles.userRole}>{user.role}</div>
+            </div>
           </div>
         )}
-        <button className={styles.logoutBtn} onClick={logout}>
-          <LogOut size={18} />
+        <button className={styles.logoutBtn} onClick={logout} aria-label="Logout" type="button">
+          <LogOut size={17} strokeWidth={1.8} />
           {!collapsed && <span>Logout</span>}
         </button>
       </div>

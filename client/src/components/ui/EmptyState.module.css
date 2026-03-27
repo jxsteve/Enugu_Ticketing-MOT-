@@ -5,27 +5,45 @@
   justify-content: center;
   padding: var(--space-12) var(--space-6);
   text-align: center;
+  animation: fadeInUp 0.4s ease;
 }
 
 .icon {
-  color: var(--color-text-muted);
+  color: var(--muted-foreground);
   margin-bottom: var(--space-4);
+  opacity: 0.3;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
 }
 
 .title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin-bottom: var(--space-2);
 }
 
 .description {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--muted-foreground);
   max-width: 360px;
   margin-bottom: var(--space-6);
+  line-height: 1.6;
 }
 
 .action {
   margin-top: var(--space-2);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .wrapper {
+    animation: none;
+  }
 }

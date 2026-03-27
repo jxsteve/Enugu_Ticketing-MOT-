@@ -58,10 +58,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       </span>
       <input
         className={styles.input}
-        type="text"
+        type="search"
         value={internalValue}
         onChange={handleChange}
         placeholder={placeholder}
+        aria-label={placeholder}
+        role="searchbox"
       />
       {internalValue && (
         <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">

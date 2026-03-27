@@ -1,8 +1,8 @@
 .page {
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  animation: fadeInUp 0.35s ease;
 }
 
 .backButton {
@@ -22,16 +22,29 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-10);
-  color: var(--color-danger);
+  color: var(--destructive);
 }
 
 .profileSection {
   display: flex;
   gap: var(--space-6);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top accent gradient */
+.profileSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--color-accent-hover), transparent);
 }
 
 .photoWrapper {
@@ -41,21 +54,23 @@
 .photo {
   width: 120px;
   height: 120px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   object-fit: cover;
+  border: 2px solid var(--border);
 }
 
 .photoPlaceholder {
   width: 120px;
   height: 120px;
-  border-radius: 12px;
-  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.15), rgba(22, 163, 74, 0.03));
+  border: 2px solid rgba(22, 163, 74, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--text-3xl);
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--primary);
 }
 
 .profileInfo {
@@ -73,8 +88,9 @@
 .driverName {
   font-size: var(--text-xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .detailsGrid {
@@ -86,19 +102,22 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 4px;
 }
 
 .fieldLabel {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .fieldValue {
   font-size: var(--text-sm);
-  color: var(--color-text-primary);
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 @media (max-width: 640px) {

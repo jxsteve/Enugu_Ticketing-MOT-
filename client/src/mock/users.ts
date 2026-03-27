@@ -7,7 +7,7 @@ export interface MockUser extends User {
 export const mockUsers: MockUser[] = [
   {
     id: 'usr-001',
-    name: 'Chukwuma Okonkwo',
+    name: 'Otakagu',
     role: 'Admin',
     email: 'admin@mot.gov.ng',
     password: 'admin123',
@@ -40,9 +40,9 @@ export const mockUsers: MockUser[] = [
   },
   {
     id: 'usr-004',
-    name: 'Chidera Ugwu',
+    name: 'Stephen Ogbodo',
     role: 'Agent',
-    email: 'chidera.ugwu@mot.gov.ng',
+    email: 'stephen.ogbodo@mot.gov.ng',
     password: 'agent123',
     phone: '08034567890',
     agent_id: 'AGT-001',

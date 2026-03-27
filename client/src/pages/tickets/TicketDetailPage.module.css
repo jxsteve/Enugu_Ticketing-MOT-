@@ -1,8 +1,8 @@
 .page {
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-5);
+  animation: fadeInUp 0.35s ease;
 }
 
 .backButton {
@@ -22,22 +22,175 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-10);
-  color: var(--color-danger);
+  color: var(--destructive);
 }
 
-.titleRow {
+/* ── Header ─────────────────────────────────────────────── */
+
+.header {
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .ticketNumber {
   font-size: var(--text-2xl);
   font-weight: 700;
   font-family: var(--font-mono);
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0;
+  letter-spacing: -0.02em;
 }
+
+.headerBadges {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.headerAmount {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amountLabel {
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.amountValue {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+/* ── Driver Section ─────────────────────────────────────── */
+
+.driverSection {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.driverPhoto {
+  flex-shrink: 0;
+}
+
+.photo {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.photoPlaceholder {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.15), rgba(22, 163, 74, 0.03));
+  border: 2px solid rgba(22, 163, 74, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.driverDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.driverHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.driverName {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.infoIcon {
+  color: var(--muted-foreground);
+  margin-top: 2px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.infoLabel {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  margin-bottom: 1px;
+}
+
+.infoValue {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.infoValueMono {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--primary);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.infoLink {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.infoLink:hover {
+  color: var(--chart-1);
+  text-decoration: underline;
+}
+
+/* ── Cards Grid ─────────────────────────────────────────── */
 
 .grid {
   display: grid;
@@ -45,47 +198,116 @@
   gap: var(--space-4);
 }
 
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  color: var(--muted-foreground);
+}
+
+.cardTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
 .fieldsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: var(--space-4);
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 4px;
 }
 
 .label {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  font-size: 0.65rem;
+  color: var(--muted-foreground);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .value {
   font-size: var(--text-sm);
-  color: var(--color-text-primary);
+  color: var(--foreground);
+  font-weight: 500;
 }
 
-.link {
+.valueMono {
   font-size: var(--text-sm);
-  color: var(--color-accent);
-  cursor: pointer;
+  color: var(--foreground);
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
-.link:hover {
-  text-decoration: underline;
+.valueAmount {
+  font-size: var(--text-lg);
+  color: var(--primary);
+  font-weight: 700;
+  font-family: var(--font-mono);
 }
+
+.overdue {
+  color: var(--destructive);
+}
+
+/* ── Paid Banner ────────────────────────────────────────── */
+
+.paidBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+  border-radius: var(--radius-md);
+  color: #4ade80;
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* ── Actions ────────────────────────────────────────────── */
 
 .actions {
   display: flex;
   gap: var(--space-3);
 }
 
+/* ── Responsive ─────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .headerAmount {
+    text-align: left;
+  }
+
+  .driverSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .driverHeader {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .infoGrid {
     grid-template-columns: 1fr;
   }
 }

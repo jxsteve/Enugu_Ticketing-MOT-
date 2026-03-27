@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   min-height: 100vh;
+  background: var(--background);
   transition: grid-template-columns var(--transition-base);
 }
 
@@ -13,10 +14,22 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
   padding: var(--space-6);
+  animation: fadeInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .layout {
+    transition: none;
+  }
+  .content {
+    animation: none;
+  }
 }

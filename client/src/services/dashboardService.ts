@@ -1,4 +1,4 @@
-import type { DashboardStats } from '@/types';
+import type { DashboardStats, AgentDashboardStats } from '@/types';
 import { mockDrivers, mockTickets, mockUsers } from '@/mock';
 
 function delay(ms: number): Promise<void> {
@@ -37,10 +37,13 @@ export const dashboardService = {
     // Agent activity
     const agentUsers = mockUsers.filter((u) => u.role === 'Agent');
     const agents = agentUsers.map((agent) => {
+      const allAgentTickets = mockTickets.filter((t) => t.agent_id === agent.agent_id);
       const agentTicketsToday = ticketsToday.filter((t) => t.agent_id === agent.agent_id);
       const agentTicketsWeek = ticketsThisWeek.filter((t) => t.agent_id === agent.agent_id);
-      const lastTicket = mockTickets
-        .filter((t) => t.agent_id === agent.agent_id)
+      const paidTickets = allAgentTickets.filter((t) => t.status === 'Paid');
+      const amountIssued = allAgentTickets.reduce((sum, t) => sum + t.fine_amount, 0);
+      const amountCollected = paidTickets.reduce((sum, t) => sum + t.fine_amount, 0);
+      const lastTicket = allAgentTickets
         .sort((a, b) => b.issued_at.localeCompare(a.issued_at))[0];
 
       return {
@@ -48,9 +51,27 @@ export const dashboardService = {
         agent_name: agent.name,
         tickets_today: agentTicketsToday.length,
         tickets_this_week: agentTicketsWeek.length,
+        tickets_total: allAgentTickets.length,
+        amount_issued: amountIssued,
+        amount_collected: amountCollected,
+        collection_rate: amountIssued > 0 ? Math.round((amountCollected / amountIssued) * 100) : 0,
         last_active: lastTicket?.issued_at || agent.created_at,
       };
     });
+
+    // Agent collections (paid tickets with details)
+    const agent_collections = mockTickets
+      .filter((t) => t.status === 'Paid' && t.paid_at)
+      .sort((a, b) => (b.paid_at || '').localeCompare(a.paid_at || ''))
+      .map((t) => ({
+        ticket_number: t.ticket_number,
+        agent_name: t.agent_name,
+        agent_id: t.agent_id,
+        plate_number: t.plate_number,
+        amount: t.fine_amount,
+        collected_at: t.paid_at || t.issued_at,
+        location: t.location,
+      }));
 
     // Revenue by zone
     const zones = ['Enugu North', 'Enugu South', 'Enugu East', 'Nsukka', 'Udi', 'Nkanu West', 'Igbo-Eze North', 'Aninri'];
@@ -95,8 +116,43 @@ export const dashboardService = {
       compliance,
       enforcement,
       agents,
+      agent_collections,
       revenue_by_zone,
       unpaid_aging,
+    };
+  },
+
+  async getAgentDashboardStats(agentId: string): Promise<AgentDashboardStats> {
+    await delay(300);
+
+    const today = new Date().toISOString().slice(0, 10);
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    const myTickets = mockTickets.filter((t) => t.agent_id === agentId);
+    const myTicketsToday = myTickets.filter((t) => t.issued_at.startsWith(today));
+    const myTicketsWeek = myTickets.filter((t) => t.issued_at >= weekAgo);
+    const myPaid = myTickets.filter((t) => t.status === 'Paid');
+    const myUnpaid = myTickets.filter((t) => t.status === 'Unpaid' || t.status === 'Partial Payment');
+
+    return {
+      my_tickets_today: myTicketsToday.length,
+      my_tickets_this_week: myTicketsWeek.length,
+      my_tickets_total: myTickets.length,
+      my_amount_issued: myTickets.reduce((sum, t) => sum + t.fine_amount, 0),
+      my_amount_collected: myPaid.reduce((sum, t) => sum + t.fine_amount, 0),
+      my_unpaid_count: myUnpaid.length,
+      my_unpaid_amount: myUnpaid.reduce((sum, t) => sum + t.fine_amount, 0),
+      recent_tickets: myTickets
+        .sort((a, b) => b.issued_at.localeCompare(a.issued_at))
+        .slice(0, 10)
+        .map((t) => ({
+          ticket_number: t.ticket_number,
+          plate_number: t.plate_number,
+          offence: t.offence_description,
+          amount: t.fine_amount,
+          status: t.status,
+          issued_at: t.issued_at,
+        })),
     };
   },
 };

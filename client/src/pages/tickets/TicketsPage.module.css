@@ -1,8 +1,8 @@
 .page {
-  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  animation: fadeInUp 0.35s ease;
 }
 
 .header {
@@ -14,13 +14,19 @@
 .pageTitle {
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--foreground);
   margin: 0;
+  letter-spacing: -0.03em;
 }
 
 .count {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
 }
 
 .filters {
@@ -30,18 +36,25 @@
 
 .select {
   padding: var(--space-2) var(--space-4);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--foreground);
   font-size: var(--text-sm);
   font-family: var(--font-sans);
   min-width: 180px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  height: 40px;
+}
+
+.select:hover {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .select:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08);
 }
 
 .loading {
@@ -53,12 +66,15 @@
 
 .ticketLink {
   font-family: var(--font-mono);
-  color: var(--color-accent);
+  color: var(--primary);
   cursor: pointer;
   font-size: var(--text-sm);
+  font-weight: 500;
+  transition: color var(--transition-fast);
 }
 
 .ticketLink:hover {
+  color: var(--chart-1);
   text-decoration: underline;
 }
 
@@ -66,30 +82,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding-top: var(--space-4);
 }
 
 .pageButton {
   padding: var(--space-2) var(--space-4);
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-size: var(--text-sm);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
 
 .pageButton:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
 .pageButton:hover:not(:disabled) {
-  background: var(--color-bg-elevated);
+  background: var(--color-bg-tertiary);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pageButton:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .pageInfo {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
 }

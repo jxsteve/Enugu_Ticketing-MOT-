@@ -1,8 +1,15 @@
-import type { Driver, PaginatedResponse } from '@/types';
+import type { Driver, VehicleType, PaginatedResponse } from '@/types';
 import { mockDrivers } from '@/mock';
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export interface CreateDriverPayload {
+  full_name: string;
+  phone_number: string;
+  plate_number: string;
+  vehicle_type: VehicleType;
 }
 
 export const driverService = {
@@ -61,5 +68,41 @@ export const driverService = {
         d.plate_number.toLowerCase().includes(q) ||
         d.phone_number.includes(q),
     );
+  },
+
+  async checkDuplicate(plateNumber: string, phoneNumber: string): Promise<Driver | null> {
+    await delay(150);
+
+    const plate = plateNumber.toLowerCase();
+    const phone = phoneNumber;
+    return mockDrivers.find(
+      (d) => d.plate_number.toLowerCase() === plate || d.phone_number === phone,
+    ) || null;
+  },
+
+  async createDriver(payload: CreateDriverPayload): Promise<Driver> {
+    await delay(400);
+
+    const now = new Date().toISOString();
+    const id = `drv-${String(mockDrivers.length + 1).padStart(3, '0')}`;
+    const newDriver: Driver = {
+      id,
+      full_name: payload.full_name,
+      phone_number: payload.phone_number,
+      plate_number: payload.plate_number.toUpperCase(),
+      vehicle_type: payload.vehicle_type,
+      driver_photo: '',
+      biometric_status: 'Not Enrolled',
+      biodata_status: 'Incomplete',
+      compliance_status: 'Non-Compliant',
+      enrollment_date: null,
+      enrollment_center: '',
+      qr_code: '',
+      created_at: now,
+      updated_at: now,
+    };
+
+    mockDrivers.push(newDriver);
+    return { ...newDriver };
   },
 };
